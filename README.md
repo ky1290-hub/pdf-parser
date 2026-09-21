@@ -2,17 +2,18 @@
   <img src="assets/ipe-logo.png" alt="IPE" width="180">
 </p>
 
-# SAT PDF Audit
+# SAT PDF Audit Plugin and Skill
 
-An IPE Agent Skill with a fail-closed audit protocol and small Node.js tools for converting authorized exam question/answer PDFs into reviewable Markdown and HTML.
+An IPE Codex and Claude Code plugin, plus a portable agent skill, for parsing authorized exam PDFs with each user's own LlamaCloud key and auditing the resulting Markdown and HTML.
 
-> **Status:** v1.0.0 public release under the MIT License.
+> **Status:** v1.1.0 public release under the MIT License.
 >
 > SAT is a registered trademark of College Board. College Board is not affiliated with and does not endorse this project.
 
 ## What this repository is
 
 - A reusable evidence and review protocol for exam-PDF conversion.
+- A BYOK LlamaParse client that uploads only when the user invokes it and reads only that user's `LLAMA_CLOUD_API_KEY`.
 - A PDF inventory tool that records hashes, page-level text evidence, image counts, tool errors, and raster risk.
 - A deliverable validator for paired `_Complete.md` / `_Complete.html` files.
 - Synthetic adversarial tests for known false-PASS paths.
@@ -20,13 +21,14 @@ An IPE Agent Skill with a fail-closed audit protocol and small Node.js tools for
 ## What it is not
 
 - It does not determine whether an exam is authentic.
-- It does not include a LlamaParse API client. `references/llamaparse.md` is an evidence contract only.
+- It does not provide, proxy, or fall back to an IPE-owned LlamaCloud API key.
 - It does not supply, redistribute, or license exam questions, answer keys, page renders, or parser output.
 - A successful automated structural check is not a release approval. Source-pixel reconciliation, answer/explanation verification, rights review, and an independent current-byte review remain manual.
 
 ## Requirements
 
 - Node.js 20 or 22.
+- A user-owned LlamaCloud API key for the optional LlamaParse call.
 - Poppler command-line tools for PDF inventory: `pdfinfo`, `pdftotext`, and `pdfimages`.
 - Authorized source material. Do not upload or redistribute material unless you have permission.
 
@@ -40,9 +42,25 @@ brew install poppler
 sudo apt-get install poppler-utils
 ```
 
-## Install in Claude
+## Install as a plugin
 
-1. Download `sat-pdf-audit-claude-v1.0.0.zip` from the latest GitHub release.
+Download `sat-pdf-audit-plugin-v1.1.0.zip` from the latest GitHub release. The same archive includes `.codex-plugin/plugin.json` for Codex, `.claude-plugin/plugin.json` for Claude Code, and the shared skill under `skills/sat-pdf-audit/`.
+
+For Claude Code development or a local verification run:
+
+```bash
+claude --plugin-dir ./sat-pdf-audit
+```
+
+The plugin never contains an API key. Before parsing, the person using it sets their own key in the environment:
+
+```bash
+export LLAMA_CLOUD_API_KEY="<your-own-key>"
+```
+
+## Install as a Claude skill
+
+1. Download `sat-pdf-audit-claude-v1.1.0.zip` from the latest GitHub release.
 2. In Claude, open **Customize → Skills**.
 3. Select **Create skill → Upload a skill**.
 4. Upload the ZIP and enable **SAT PDF Audit**.
@@ -51,9 +69,19 @@ The ZIP contains a top-level `sat-pdf-audit/` folder and excludes platform-speci
 
 ## Install in Codex / ChatGPT
 
-Download `sat-pdf-audit-codex-v1.0.0.zip`, extract it, and place the `sat-pdf-audit` folder under `$CODEX_HOME/skills/` or `~/.codex/skills/`. The Codex package includes `agents/openai.yaml`.
+Download `sat-pdf-audit-codex-v1.1.0.zip`, extract it, and place the `sat-pdf-audit` folder under `$CODEX_HOME/skills/` or `~/.codex/skills/`. The Codex package includes `agents/openai.yaml`.
 
 ## Usage
+
+Parse an authorized PDF with the current user's key and preserve the raw result privately:
+
+```bash
+export LLAMA_CLOUD_API_KEY="<your-own-key>"
+node scripts/llamaparse.mjs ./questions.pdf \
+  --out ./private-evidence/questions-2026-09-21.json
+```
+
+The parser refuses `--api-key`, never prints the key, writes the result with owner-only permissions, and refuses to overwrite an existing result. Source PDFs and raw parser output must remain outside the public repository.
 
 Inventory source PDFs:
 

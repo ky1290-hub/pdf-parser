@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-Until the first tagged release, only the latest commit is supported.
+The latest minor release is supported.
 
 ## Reporting a vulnerability
 
@@ -20,4 +20,5 @@ Required controls:
 - Keep paths inside the declared root and reject symlinks.
 - Run Poppler and future parser adapters with timeouts and bounded output.
 - Keep raw evidence private and secrets out of logs.
+- Read LlamaCloud credentials only from `LLAMA_CLOUD_API_KEY`; reject command-line credentials and never ship a publisher-owned fallback key.
 - Treat automated structural success as one gate, not release approval.

@@ -8,9 +8,13 @@
 !NOTICE.md
 !CONTRIBUTING.md
 !LICENSE
-!SKILL.md
 !package.json
 !package-lock.json
+
+!.codex-plugin/
+!.codex-plugin/plugin.json
+!.claude-plugin/
+!.claude-plugin/plugin.json
 
 !assets/
 !assets/ipe-logo.png
@@ -29,7 +33,24 @@
 !scripts/
 !scripts/audit-deliverables.mjs
 !scripts/inventory-pdfs.mjs
+!scripts/llamaparse.mjs
+!scripts/sync-plugin-skill.mjs
+!scripts/build-release-packages.py
 
 !tests/
 !tests/test-audit-deliverables.mjs
 !tests/test-inventory-pdfs.mjs
+!tests/test-llamaparse.mjs
+!tests/test-no-secrets.mjs
+!tests/test-plugin-layout.mjs
+
+!skills/
+!skills/sat-pdf-audit/
+!skills/sat-pdf-audit/SKILL.md
+!skills/sat-pdf-audit/references/
+!skills/sat-pdf-audit/references/llamaparse.md
+!skills/sat-pdf-audit/references/protocol.md
+!skills/sat-pdf-audit/scripts/
+!skills/sat-pdf-audit/scripts/audit-deliverables.mjs
+!skills/sat-pdf-audit/scripts/inventory-pdfs.mjs
+!skills/sat-pdf-audit/scripts/llamaparse.mjs

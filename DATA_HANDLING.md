@@ -19,6 +19,7 @@ Before uploading a document to LlamaParse or another service:
 2. Remove unnecessary personal, student, account, and institution data.
 3. Check the provider's current retention, deletion, data-residency, and access-control terms.
 4. Use the user's existing secret manager or environment. Never commit credentials.
+5. Each user must supply their own `LLAMA_CLOUD_API_KEY`. Do not use or distribute an IPE-owned key as a plugin default or fallback.
 
 ## Raw and sanitized evidence
 
