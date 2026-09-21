@@ -45,12 +45,12 @@
 !tests/test-plugin-layout.mjs
 
 !skills/
-!skills/sat-pdf-audit/
-!skills/sat-pdf-audit/SKILL.md
-!skills/sat-pdf-audit/references/
-!skills/sat-pdf-audit/references/llamaparse.md
-!skills/sat-pdf-audit/references/protocol.md
-!skills/sat-pdf-audit/scripts/
-!skills/sat-pdf-audit/scripts/audit-deliverables.mjs
-!skills/sat-pdf-audit/scripts/inventory-pdfs.mjs
-!skills/sat-pdf-audit/scripts/llamaparse.mjs
+!skills/pdf-parser/
+!skills/pdf-parser/SKILL.md
+!skills/pdf-parser/references/
+!skills/pdf-parser/references/llamaparse.md
+!skills/pdf-parser/references/protocol.md
+!skills/pdf-parser/scripts/
+!skills/pdf-parser/scripts/audit-deliverables.mjs
+!skills/pdf-parser/scripts/inventory-pdfs.mjs
+!skills/pdf-parser/scripts/llamaparse.mjs

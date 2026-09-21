@@ -1,4 +1,4 @@
 interface:
-  display_name: "SAT PDF Audit"
-  short_description: "Parse and audit exam PDFs with your own key"
-  default_prompt: "Use $sat-pdf-audit to parse this authorized exam PDF with my LlamaCloud key and audit its Markdown and HTML deliverables."
+  display_name: "PDF Parser"
+  short_description: "Extract text, OCR, tables, and PDF layout"
+  default_prompt: "Use $pdf-parser to parse this authorized PDF with my LlamaCloud key into structured Markdown and JSON."

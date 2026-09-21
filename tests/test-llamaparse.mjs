@@ -21,7 +21,7 @@ function runCli(args, env) {
   });
 }
 
-const temp = await mkdtemp(path.join(os.tmpdir(), 'sat-pdf-audit-llamaparse-'));
+const temp = await mkdtemp(path.join(os.tmpdir(), 'pdf-parser-llamaparse-'));
 const pdf = path.join(temp, 'source.pdf');
 const output = path.join(temp, 'private', 'result.json');
 await writeFile(pdf, '%PDF-1.4\nsynthetic test only\n');
@@ -52,7 +52,7 @@ try {
   const result = await runCli([pdf, '--out', output, '--poll-ms', '250'], {
     NODE_ENV: 'test',
     LLAMA_CLOUD_API_KEY: secret,
-    SAT_PDF_AUDIT_TEST_BASE_URL: `http://127.0.0.1:${address.port}`,
+    PDF_PARSER_TEST_BASE_URL: `http://127.0.0.1:${address.port}`,
   });
   assert.equal(result.code, 0, result.stderr);
   assert.equal(await readFile(output, 'utf8'), finalBody);
@@ -71,7 +71,7 @@ try {
   const missingKey = await runCli([pdf, '--out', path.join(temp, 'missing.json')], {
     NODE_ENV: 'test',
     LLAMA_CLOUD_API_KEY: '',
-    SAT_PDF_AUDIT_TEST_BASE_URL: `http://127.0.0.1:${address.port}`,
+    PDF_PARSER_TEST_BASE_URL: `http://127.0.0.1:${address.port}`,
   });
   assert.equal(missingKey.code, 1);
   assert.match(missingKey.stderr, /LLAMA_CLOUD_API_KEY is required/);
@@ -79,7 +79,7 @@ try {
   const cliKey = await runCli([pdf, '--out', path.join(temp, 'cli.json'), '--api-key', 'forbidden'], {
     NODE_ENV: 'test',
     LLAMA_CLOUD_API_KEY: 'present',
-    SAT_PDF_AUDIT_TEST_BASE_URL: `http://127.0.0.1:${address.port}`,
+    PDF_PARSER_TEST_BASE_URL: `http://127.0.0.1:${address.port}`,
   });
   assert.equal(cliKey.code, 1);
   assert.match(cliKey.stderr, /command-line keys are forbidden/);
@@ -90,7 +90,7 @@ try {
   const overwrite = await runCli([pdf, '--out', existingOutput], {
     NODE_ENV: 'test',
     LLAMA_CLOUD_API_KEY: 'present',
-    SAT_PDF_AUDIT_TEST_BASE_URL: `http://127.0.0.1:${address.port}`,
+    PDF_PARSER_TEST_BASE_URL: `http://127.0.0.1:${address.port}`,
   });
   assert.equal(overwrite.code, 1);
   assert.match(overwrite.stderr, /output already exists/);

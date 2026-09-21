@@ -8,7 +8,7 @@ Keep these artifacts outside public repositories and CI logs:
 - untouched parser/OCR responses
 - signed image URLs and query strings
 - organization, project, job, document, user, or student identifiers
-- page renders, figure crops, translated exam text, answers, and explanations
+- page renders, figure crops, extracted or translated text, answers, and explanations
 - audit reports containing private paths or source content
 
 ## Third-party parsing
@@ -33,4 +33,4 @@ Store untouched parser output only in a private, access-controlled evidence area
 
 ## Copyright and redistribution
 
-The code and protocol do not grant rights to source documents. Use only materials you are licensed or otherwise authorized to process. Do not publish converted exam content, page renders, figures, answer keys, or explanations unless redistribution rights are confirmed.
+The code and protocol do not grant rights to source documents. Use only materials you are licensed or otherwise authorized to process. Do not publish converted content, page renders, figures, answers, or explanations unless redistribution rights are confirmed.

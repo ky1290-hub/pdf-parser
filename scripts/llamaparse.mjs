@@ -53,8 +53,8 @@ function parseArgs(argv) {
 }
 
 function baseUrl() {
-  if (process.env.NODE_ENV === 'test' && process.env.SAT_PDF_AUDIT_TEST_BASE_URL) {
-    return process.env.SAT_PDF_AUDIT_TEST_BASE_URL.replace(/\/$/, '');
+  if (process.env.NODE_ENV === 'test' && process.env.PDF_PARSER_TEST_BASE_URL) {
+    return process.env.PDF_PARSER_TEST_BASE_URL.replace(/\/$/, '');
   }
   return OFFICIAL_BASE_URL;
 }

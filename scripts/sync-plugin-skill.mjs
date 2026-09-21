@@ -6,7 +6,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const target = path.join(root, 'skills', 'sat-pdf-audit');
+const target = path.join(root, 'skills', 'pdf-parser');
 const files = [
   'references/llamaparse.md',
   'references/protocol.md',

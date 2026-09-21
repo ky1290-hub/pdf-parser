@@ -49,9 +49,7 @@ def write_zip(destination, mappings):
 def build(output_dir):
     output_dir.mkdir(parents=True, exist_ok=True)
     shared_docs = [Path(name) for name in ["README.md", "DATA_HANDLING.md", "SECURITY.md", "NOTICE.md", "LICENSE"]]
-    skill_root = ROOT / "skills" / "sat-pdf-audit"
-
-    skill_files = list(iter_files([Path("skills/sat-pdf-audit")]))
+    skill_files = list(iter_files([Path("skills/pdf-parser")]))
     plugin_inputs = [
         Path(".codex-plugin/plugin.json"),
         Path(".claude-plugin/plugin.json"),
@@ -62,22 +60,22 @@ def build(output_dir):
         *shared_docs,
     ]
     plugin_files = list(iter_files(plugin_inputs)) + skill_files
-    plugin_zip = output_dir / f"sat-pdf-audit-plugin-v{VERSION}.zip"
-    write_zip(plugin_zip, [(source, Path("sat-pdf-audit") / relative) for source, relative in plugin_files])
+    plugin_zip = output_dir / f"pdf-parser-plugin-v{VERSION}.zip"
+    write_zip(plugin_zip, [(source, Path("pdf-parser") / relative) for source, relative in plugin_files])
 
     def standalone(include_openai):
         files = []
         for source, relative in skill_files:
-            files.append((source, Path("sat-pdf-audit") / relative.relative_to("skills/sat-pdf-audit")))
+            files.append((source, Path("pdf-parser") / relative.relative_to("skills/pdf-parser")))
         for source, relative in iter_files([Path("assets/ipe-logo.png"), *shared_docs]):
-            files.append((source, Path("sat-pdf-audit") / relative))
+            files.append((source, Path("pdf-parser") / relative))
         if include_openai:
             for source, relative in iter_files([Path("agents/openai.yaml")]):
-                files.append((source, Path("sat-pdf-audit") / relative))
+                files.append((source, Path("pdf-parser") / relative))
         return files
 
-    claude_zip = output_dir / f"sat-pdf-audit-claude-v{VERSION}.zip"
-    codex_zip = output_dir / f"sat-pdf-audit-codex-v{VERSION}.zip"
+    claude_zip = output_dir / f"pdf-parser-claude-v{VERSION}.zip"
+    codex_zip = output_dir / f"pdf-parser-codex-v{VERSION}.zip"
     write_zip(claude_zip, standalone(False))
     write_zip(codex_zip, standalone(True))
 
@@ -95,12 +93,12 @@ def build(output_dir):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Build reproducible SAT PDF Audit release ZIPs")
+    parser = argparse.ArgumentParser(description="Build reproducible PDF Parser release ZIPs")
     parser.add_argument("output", nargs="?", help="output directory")
     parser.add_argument("--verify-only", action="store_true", help="build and verify packages in a temporary directory")
     args = parser.parse_args()
     if args.verify_only:
-        with tempfile.TemporaryDirectory(prefix="sat-pdf-audit-release-") as directory:
+        with tempfile.TemporaryDirectory(prefix="pdf-parser-release-") as directory:
             archives = build(Path(directory))
             print(f"release package verification: {len(archives)} archives passed")
         return
