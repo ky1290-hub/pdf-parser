@@ -17,7 +17,7 @@ for (const manifest of [portable, codex, claude]) {
 
 assert.equal(portable.$schema, 'https://agent-plugins.org/schemas/1.0.0/plugin.schema.json');
 assert.equal(portable.author.name, 'Ivypath Education');
-assert.equal(portable.interface.composerIcon, './assets/ipe-plugin-icon.png');
+assert.equal(portable.extensions['com.openai'].interface.composerIcon, './assets/ipe-plugin-icon.png');
 assert.equal(codex.skills, './skills/');
 assert.equal(codex.interface.displayName, 'PDF Parser');
 assert.match(codex.interface.longDescription, /own LlamaCloud API key/i);

@@ -6,7 +6,7 @@
 
 An IPE Codex and Claude Code plugin, plus a portable agent skill, for parsing authorized text-based, scanned, table-heavy, and image-rich PDFs with each user's own LlamaCloud key.
 
-> **Status:** v1.3.1 public-plugin submission package under the MIT License.
+> **Status:** v1.3.2 public-plugin submission package under the MIT License.
 >
 > The parser is general-purpose. Optional validators are included for structured question-and-answer deliverables.
 
@@ -44,7 +44,7 @@ sudo apt-get install poppler-utils
 
 ## Install as a plugin
 
-Download `pdf-parser-plugin-v1.3.1.zip` from the latest GitHub release. The same archive includes the portable root `plugin.json`, `.codex-plugin/plugin.json` for Codex compatibility, `.claude-plugin/plugin.json` for Claude Code, and the shared skill under `skills/pdf-parser/`.
+Download `pdf-parser-plugin-v1.3.2.zip` from the latest GitHub release. The same archive includes the portable root `plugin.json`, `.codex-plugin/plugin.json` for Codex compatibility, `.claude-plugin/plugin.json` for Claude Code, and the shared skill under `skills/pdf-parser/`.
 
 For Claude Code development or a local verification run:
 
@@ -60,7 +60,7 @@ export LLAMA_CLOUD_API_KEY="<your-own-key>"
 
 ## Install as a Claude skill
 
-1. Download `pdf-parser-claude-v1.3.1.zip` from the latest GitHub release.
+1. Download `pdf-parser-claude-v1.3.2.zip` from the latest GitHub release.
 2. In Claude, open **Customize → Skills**.
 3. Select **Create skill → Upload a skill**.
 4. Upload the ZIP and enable **PDF Parser**.
@@ -69,7 +69,7 @@ The ZIP contains a top-level `pdf-parser/` folder and excludes platform-specific
 
 ## Install in Codex / ChatGPT
 
-Download `pdf-parser-codex-v1.3.1.zip`, extract it, and place the `pdf-parser` folder under `$CODEX_HOME/skills/` or `~/.codex/skills/`. The Codex package includes `agents/openai.yaml`.
+Download `pdf-parser-codex-v1.3.2.zip`, extract it, and place the `pdf-parser` folder under `$CODEX_HOME/skills/` or `~/.codex/skills/`. The Codex package includes `agents/openai.yaml`.
 
 ## Usage
 
