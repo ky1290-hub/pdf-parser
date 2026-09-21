@@ -1,6 +1,6 @@
 {
   "name": "sat-pdf-audit",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Fail-closed evidence protocol and validators for authorized exam-PDF conversion",
   "license": "MIT",
@@ -9,7 +9,9 @@
     "node": ">=20"
   },
   "scripts": {
-    "test": "node tests/test-audit-deliverables.mjs scripts/audit-deliverables.mjs && node tests/test-inventory-pdfs.mjs scripts/inventory-pdfs.mjs",
-    "check": "node --check scripts/audit-deliverables.mjs && node --check scripts/inventory-pdfs.mjs"
+    "sync:plugin": "node scripts/sync-plugin-skill.mjs",
+    "build:release": "python3 scripts/build-release-packages.py",
+    "test": "node tests/test-audit-deliverables.mjs scripts/audit-deliverables.mjs && node tests/test-inventory-pdfs.mjs scripts/inventory-pdfs.mjs && node tests/test-llamaparse.mjs scripts/llamaparse.mjs && node tests/test-plugin-layout.mjs && node tests/test-no-secrets.mjs && node scripts/sync-plugin-skill.mjs --check && python3 scripts/build-release-packages.py --verify-only",
+    "check": "node --check scripts/audit-deliverables.mjs && node --check scripts/inventory-pdfs.mjs && node --check scripts/llamaparse.mjs && node --check scripts/sync-plugin-skill.mjs"
   }
 }
