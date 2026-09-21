@@ -48,9 +48,10 @@ def write_zip(destination, mappings):
 
 def build(output_dir):
     output_dir.mkdir(parents=True, exist_ok=True)
-    shared_docs = [Path(name) for name in ["README.md", "DATA_HANDLING.md", "SECURITY.md", "NOTICE.md", "LICENSE"]]
+    shared_docs = [Path(name) for name in ["README.md", "DATA_HANDLING.md", "SECURITY.md", "TERMS.md", "NOTICE.md", "LICENSE"]]
     skill_files = list(iter_files([Path("skills/pdf-parser")]))
     plugin_inputs = [
+        Path("plugin.json"),
         Path(".codex-plugin/plugin.json"),
         Path(".claude-plugin/plugin.json"),
         Path("assets/ipe-logo.png"),
