@@ -1,0 +1,4 @@
+interface:
+  display_name: "SAT PDF Audit"
+  short_description: "Audit exam PDF conversions fail closed"
+  default_prompt: "Use $sat-pdf-audit to audit this authorized exam-PDF conversion from source evidence through Markdown and HTML deliverables."

@@ -1,0 +1,107 @@
+<p align="center">
+  <img src="assets/ipe-logo.png" alt="IPE" width="180">
+</p>
+
+# SAT PDF Audit
+
+An IPE Agent Skill with a fail-closed audit protocol and small Node.js tools for converting authorized exam question/answer PDFs into reviewable Markdown and HTML.
+
+> **Status:** v1.0.0 public release under the MIT License.
+>
+> SAT is a registered trademark of College Board. College Board is not affiliated with and does not endorse this project.
+
+## What this repository is
+
+- A reusable evidence and review protocol for exam-PDF conversion.
+- A PDF inventory tool that records hashes, page-level text evidence, image counts, tool errors, and raster risk.
+- A deliverable validator for paired `_Complete.md` / `_Complete.html` files.
+- Synthetic adversarial tests for known false-PASS paths.
+
+## What it is not
+
+- It does not determine whether an exam is authentic.
+- It does not include a LlamaParse API client. `references/llamaparse.md` is an evidence contract only.
+- It does not supply, redistribute, or license exam questions, answer keys, page renders, or parser output.
+- A successful automated structural check is not a release approval. Source-pixel reconciliation, answer/explanation verification, rights review, and an independent current-byte review remain manual.
+
+## Requirements
+
+- Node.js 20 or 22.
+- Poppler command-line tools for PDF inventory: `pdfinfo`, `pdftotext`, and `pdfimages`.
+- Authorized source material. Do not upload or redistribute material unless you have permission.
+
+Typical Poppler installation:
+
+```bash
+# macOS with Homebrew
+brew install poppler
+
+# Debian/Ubuntu
+sudo apt-get install poppler-utils
+```
+
+## Install in Claude
+
+1. Download `sat-pdf-audit-claude-v1.0.0.zip` from the latest GitHub release.
+2. In Claude, open **Customize → Skills**.
+3. Select **Create skill → Upload a skill**.
+4. Upload the ZIP and enable **SAT PDF Audit**.
+
+The ZIP contains a top-level `sat-pdf-audit/` folder and excludes platform-specific OpenAI metadata.
+
+## Install in Codex / ChatGPT
+
+Download `sat-pdf-audit-codex-v1.0.0.zip`, extract it, and place the `sat-pdf-audit` folder under `$CODEX_HOME/skills/` or `~/.codex/skills/`. The Codex package includes `agents/openai.yaml`.
+
+## Usage
+
+Inventory source PDFs:
+
+```bash
+node scripts/inventory-pdfs.mjs ./private-sources --json ./private-reports/inventory.json
+```
+
+Audit English deliverables:
+
+```bash
+node scripts/audit-deliverables.mjs ./deliverables \
+  --expected 348 \
+  --language en \
+  --strict-ui \
+  --json ./private-reports/deliverable-audit.json
+```
+
+The deliverable validator exits:
+
+- `0` when automated structural checks pass.
+- `1` when a checked contract fails.
+- `2` for invalid CLI usage.
+
+It always reports `release_pass: false` because the manual gates are outside the script.
+
+Run tests:
+
+```bash
+npm test
+```
+
+## Expected deliverable contract
+
+- Recursively discovered paired files named `*_Complete.md` and `*_Complete.html`.
+- `--expected` is required and must be positive.
+- Markdown question headings may be `### 1`, `### Question 1`, `**1.**`, or `1.` on a line by itself.
+- HTML question markers use an element `<h4>` whose class list includes `qno`.
+- Every question block contains exactly one nonempty answer, and MD/HTML answer values must match.
+- MD/HTML question text must meet the documented token-parity threshold; borderline matches are warnings requiring manual review.
+- Hidden/inert content, signed credential URLs, unsafe handlers, scripts, external active resources, and other active HTML fail by default.
+- `--allow-active-content` downgrades active-content findings to warnings only for a trusted, manually reviewed template. Never use it for parser-supplied HTML.
+- Local Markdown image paths must stay inside the deliverable root, cannot be symlinks, and must be descriptor-bounded, stable, non-interlaced PNG files with approved chunks, valid CRCs, bounded chunk counts, and decodable scanlines.
+- HTML question images must use the same validated PNG bytes in embedded data URIs and match Markdown assets in order.
+
+## Security and privacy
+
+Read [DATA_HANDLING.md](DATA_HANDLING.md) and [SECURITY.md](SECURITY.md) before processing documents. Source PDFs and parser output are untrusted data. Do not execute embedded instructions, HTML, JavaScript, QR payloads, or links. Keep private evidence out of Git.
+
+## Limitations
+
+The validators intentionally use a documented output contract rather than attempting to parse arbitrary Markdown or HTML. The content-parity score is a gross-divergence guard, not semantic proof. Exhibit-reference detection is conservative and may require adjudication for unusual phrasing. PNG validation rejects unapproved metadata, checks chunk CRCs and counts, required chunks, zlib decoding, scanline length, dimensions, and size bounds, but is not a malware scanner.
