@@ -2,27 +2,27 @@
   <img src="assets/ipe-logo.png" alt="IPE" width="180">
 </p>
 
-# SAT PDF Audit Plugin and Skill
+# PDF Parser — Extract Text, OCR, Tables & Layout into Markdown/JSON
 
-An IPE Codex and Claude Code plugin, plus a portable agent skill, for parsing authorized exam PDFs with each user's own LlamaCloud key and auditing the resulting Markdown and HTML.
+An IPE Codex and Claude Code plugin, plus a portable agent skill, for parsing authorized text-based, scanned, table-heavy, and image-rich PDFs with each user's own LlamaCloud key.
 
-> **Status:** v1.1.0 public release under the MIT License.
+> **Status:** v1.2.0 public release under the MIT License.
 >
-> SAT is a registered trademark of College Board. College Board is not affiliated with and does not endorse this project.
+> The parser is general-purpose. Optional validators are included for structured question-and-answer deliverables.
 
 ## What this repository is
 
-- A reusable evidence and review protocol for exam-PDF conversion.
+- A general-purpose PDF-to-Markdown/JSON workflow for documents with text layers, OCR needs, tables, figures, and complex layouts.
 - A BYOK LlamaParse client that uploads only when the user invokes it and reads only that user's `LLAMA_CLOUD_API_KEY`.
 - A PDF inventory tool that records hashes, page-level text evidence, image counts, tool errors, and raster risk.
-- A deliverable validator for paired `_Complete.md` / `_Complete.html` files.
+- An optional deliverable validator for paired question-and-answer `_Complete.md` / `_Complete.html` files.
 - Synthetic adversarial tests for known false-PASS paths.
 
 ## What it is not
 
-- It does not determine whether an exam is authentic.
+- It does not prove that extracted content is semantically correct without source comparison.
 - It does not provide, proxy, or fall back to an IPE-owned LlamaCloud API key.
-- It does not supply, redistribute, or license exam questions, answer keys, page renders, or parser output.
+- It does not supply, redistribute, or license source documents, page renders, or parser output.
 - A successful automated structural check is not a release approval. Source-pixel reconciliation, answer/explanation verification, rights review, and an independent current-byte review remain manual.
 
 ## Requirements
@@ -44,12 +44,12 @@ sudo apt-get install poppler-utils
 
 ## Install as a plugin
 
-Download `sat-pdf-audit-plugin-v1.1.0.zip` from the latest GitHub release. The same archive includes `.codex-plugin/plugin.json` for Codex, `.claude-plugin/plugin.json` for Claude Code, and the shared skill under `skills/sat-pdf-audit/`.
+Download `pdf-parser-plugin-v1.2.0.zip` from the latest GitHub release. The same archive includes `.codex-plugin/plugin.json` for Codex, `.claude-plugin/plugin.json` for Claude Code, and the shared skill under `skills/pdf-parser/`.
 
 For Claude Code development or a local verification run:
 
 ```bash
-claude --plugin-dir ./sat-pdf-audit
+claude --plugin-dir ./pdf-parser
 ```
 
 The plugin never contains an API key. Before parsing, the person using it sets their own key in the environment:
@@ -60,25 +60,25 @@ export LLAMA_CLOUD_API_KEY="<your-own-key>"
 
 ## Install as a Claude skill
 
-1. Download `sat-pdf-audit-claude-v1.1.0.zip` from the latest GitHub release.
+1. Download `pdf-parser-claude-v1.2.0.zip` from the latest GitHub release.
 2. In Claude, open **Customize → Skills**.
 3. Select **Create skill → Upload a skill**.
-4. Upload the ZIP and enable **SAT PDF Audit**.
+4. Upload the ZIP and enable **PDF Parser**.
 
-The ZIP contains a top-level `sat-pdf-audit/` folder and excludes platform-specific OpenAI metadata.
+The ZIP contains a top-level `pdf-parser/` folder and excludes platform-specific OpenAI metadata.
 
 ## Install in Codex / ChatGPT
 
-Download `sat-pdf-audit-codex-v1.1.0.zip`, extract it, and place the `sat-pdf-audit` folder under `$CODEX_HOME/skills/` or `~/.codex/skills/`. The Codex package includes `agents/openai.yaml`.
+Download `pdf-parser-codex-v1.2.0.zip`, extract it, and place the `pdf-parser` folder under `$CODEX_HOME/skills/` or `~/.codex/skills/`. The Codex package includes `agents/openai.yaml`.
 
 ## Usage
 
-Parse an authorized PDF with the current user's key and preserve the raw result privately:
+Parse an authorized text or scanned PDF with the current user's key and preserve the structured result privately:
 
 ```bash
 export LLAMA_CLOUD_API_KEY="<your-own-key>"
-node scripts/llamaparse.mjs ./questions.pdf \
-  --out ./private-evidence/questions-2026-09-21.json
+node scripts/llamaparse.mjs ./document.pdf \
+  --out ./private-evidence/document-2026-09-21.json
 ```
 
 The parser refuses `--api-key`, never prints the key, writes the result with owner-only permissions, and refuses to overwrite an existing result. Source PDFs and raw parser output must remain outside the public repository.
@@ -89,7 +89,7 @@ Inventory source PDFs:
 node scripts/inventory-pdfs.mjs ./private-sources --json ./private-reports/inventory.json
 ```
 
-Audit English deliverables:
+Optionally audit structured English question-and-answer deliverables:
 
 ```bash
 node scripts/audit-deliverables.mjs ./deliverables \
@@ -113,7 +113,7 @@ Run tests:
 npm test
 ```
 
-## Expected deliverable contract
+## Optional question-and-answer deliverable contract
 
 - Recursively discovered paired files named `*_Complete.md` and `*_Complete.html`.
 - `--expected` is required and must be positive.

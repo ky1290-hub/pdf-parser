@@ -1,35 +1,37 @@
 {
-  "name": "sat-pdf-audit",
-  "version": "1.1.0",
-  "description": "Parse authorized exam PDFs with a user-owned LlamaCloud key and audit the resulting deliverables.",
+  "name": "pdf-parser",
+  "version": "1.2.0",
+  "description": "Parse text, scanned, table-heavy, and image-rich PDFs into structured Markdown and JSON with a user-owned LlamaCloud key.",
   "author": {
     "name": "IPE",
     "url": "https://github.com/ky1290-hub"
   },
-  "homepage": "https://github.com/ky1290-hub/sat-pdf-audit",
-  "repository": "https://github.com/ky1290-hub/sat-pdf-audit",
+  "homepage": "https://github.com/ky1290-hub/pdf-parser",
+  "repository": "https://github.com/ky1290-hub/pdf-parser",
   "license": "MIT",
   "keywords": [
     "pdf",
-    "sat",
+    "ocr",
     "llamaparse",
-    "audit",
-    "education"
+    "markdown",
+    "document-processing"
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "SAT PDF Audit",
-    "shortDescription": "Parse exam PDFs and audit conversion integrity.",
-    "longDescription": "Uses each user's own LlamaCloud API key to parse authorized exam PDFs, preserve private raw evidence, and audit Markdown and HTML deliverables for structural and rendering defects.",
+    "displayName": "PDF Parser",
+    "shortDescription": "Extract text, OCR, tables, and layout from PDFs.",
+    "longDescription": "Uses each user's own LlamaCloud API key to parse text-based, scanned, table-heavy, and image-rich PDFs into structured Markdown and JSON while preserving private raw evidence. Optional validators check question-and-answer deliverables.",
     "developerName": "IPE",
     "category": "Developer Tools",
     "capabilities": [
       "Document parsing",
-      "Conversion audit"
+      "OCR extraction",
+      "Table and layout extraction",
+      "Conversion validation"
     ],
-    "websiteURL": "https://github.com/ky1290-hub/sat-pdf-audit",
-    "privacyPolicyURL": "https://github.com/ky1290-hub/sat-pdf-audit/blob/main/DATA_HANDLING.md",
-    "defaultPrompt": "Parse an authorized exam PDF with my LlamaCloud key, then audit the generated deliverables.",
+    "websiteURL": "https://github.com/ky1290-hub/pdf-parser",
+    "privacyPolicyURL": "https://github.com/ky1290-hub/pdf-parser/blob/main/DATA_HANDLING.md",
+    "defaultPrompt": "Parse this authorized PDF with my LlamaCloud key and return structured Markdown and JSON.",
     "brandColor": "#1B6B45",
     "logo": "./assets/ipe-logo.png"
   }
