@@ -55,6 +55,7 @@ def build(output_dir):
         Path(".codex-plugin/plugin.json"),
         Path(".claude-plugin/plugin.json"),
         Path("assets/ipe-logo.png"),
+        Path("assets/ipe-plugin-icon.png"),
         Path("scripts/audit-deliverables.mjs"),
         Path("scripts/inventory-pdfs.mjs"),
         Path("scripts/llamaparse.mjs"),
@@ -68,7 +69,7 @@ def build(output_dir):
         files = []
         for source, relative in skill_files:
             files.append((source, Path("pdf-parser") / relative.relative_to("skills/pdf-parser")))
-        for source, relative in iter_files([Path("assets/ipe-logo.png"), *shared_docs]):
+        for source, relative in iter_files([Path("assets/ipe-logo.png"), Path("assets/ipe-plugin-icon.png"), *shared_docs]):
             files.append((source, Path("pdf-parser") / relative))
         if include_openai:
             for source, relative in iter_files([Path("agents/openai.yaml")]):

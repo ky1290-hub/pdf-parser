@@ -21,6 +21,7 @@
 
 !assets/
 !assets/ipe-logo.png
+!assets/ipe-plugin-icon.png
 
 !agents/
 !agents/openai.yaml
